@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="oav_V1">
+
+    <xacro:arg name="prefix" default="rNESH"/>
+    <xacro:property name="PREFIX" value="$(arg prefix)"/>
+    
+    <xacro:include filename="$(find oav_description)/urdf/components.urdf.xacro" />
+    <xacro:include filename="$(find oav_description)/urdf/definations.urdf.xacro" />
+    
+    <xacro:base_footprint prefix="${PREFIX}"/>
+    <xacro:base_link prefix="${PREFIX}"/>
+
+    
+
+</robot>

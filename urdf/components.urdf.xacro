@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="oav_components">
+
+    <xacro:include filename="$(find oav_description)/urdf/inertial.urdf.xacro" />
+    <xacro:include filename="$(find oav_description)/urdf/definations.urdf.xacro" />
+    <xacro:include filename="$(find oav_description)/urdf/materials.urdf.xacro" />
+
+
+<xacro:macro name="base_footprint" params="prefix">
+    <link name="${prefix}/base_footprint"/>
+</xacro:macro>
+
+<xacro:macro name="base_link" params="prefix">
+    <link name="${prefix}/base_link">
+        <visual>
+            <geometry>
+                <box size="${base_link_l} ${base_link_w} ${base_link_h}"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="${prefix}/base_joint" type="fixed">
+        <parent link="${prefix}/base_footprint"/>
+        <child link="${prefix}/base_link"/>
+        <origin xyz="0 0 ${wheels_radius+base_link_h/2}" rpy="0 0 0"/>
+    </joint>
+</xacro:macro>
+
+</robot>
