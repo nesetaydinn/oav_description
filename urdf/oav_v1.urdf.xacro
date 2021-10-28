@@ -7,9 +7,28 @@
     <xacro:include filename="$(find oav_description)/urdf/components.urdf.xacro" />
     <xacro:include filename="$(find oav_description)/urdf/definations.urdf.xacro" />
     
-    <xacro:base_footprint prefix="${PREFIX}"/>
-    <xacro:base_link prefix="${PREFIX}"/>
 
+    <xacro:base prefix="${PREFIX}"/>
+    <xacro:wheel prefix="${PREFIX}" location_prefix="right"/>
+    <xacro:wheel prefix="${PREFIX}" location_prefix="left"/>
+
+
+    <xacro:caster_wheel prefix="${PREFIX}" r_location_prefix="right" d_location_prefix="front"/>
+    <xacro:caster_wheel prefix="${PREFIX}" r_location_prefix="left" d_location_prefix="front"/>
+
+
+    <xacro:caster_wheel prefix="${PREFIX}" r_location_prefix="right" d_location_prefix="back"/>
+    <xacro:caster_wheel prefix="${PREFIX}" r_location_prefix="left" d_location_prefix="back"/>
     
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+            <robotNamespace></robotNamespace>
+            <robotParam>robot_description</robotParam>
+            <controlPeriod>0.002</controlPeriod>
+        </plugin>
+    </gazebo>
+
 
 </robot>

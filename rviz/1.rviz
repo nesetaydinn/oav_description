@@ -63,6 +63,26 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        rNESH/back_left_caster_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/back_left_caster_wheel_ver_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/back_right_caster_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/back_right_caster_wheel_ver_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         rNESH/base_footprint:
           Alpha: 1
           Show Axes: false
@@ -72,27 +92,47 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-      Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
-    - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        rNESH/base_footprint:
+        rNESH/base_link_turtle:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        rNESH/base_link:
+          Value: true
+        rNESH/front_left_caster_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/front_left_caster_wheel_ver_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/front_right_caster_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/front_right_caster_wheel_ver_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/left_wheel_ver_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rNESH/right_wheel_ver_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -131,7 +171,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.6762237548828125
+      Distance: 0.9712482690811157
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -139,17 +179,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.005691844038665295
-        Y: -0.0017006801208481193
-        Z: -0.013983520679175854
+        X: 0.014897819608449936
+        Y: -0.1775932013988495
+        Z: -0.04733537137508392
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5703973174095154
+      Pitch: 0.03539715334773064
       Target Frame: <Fixed Frame>
-      Yaw: 6.245386600494385
+      Yaw: 2.0340137481689453
     Saved: ~
 Window Geometry:
   Displays:
@@ -167,5 +207,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1331
-  X: 890
+  X: 589
   Y: 44

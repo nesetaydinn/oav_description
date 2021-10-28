@@ -1,13 +1,30 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="oav_components">
 
+        <!-- MATH -->
+        <xacro:property name="math_pi" value="3.1415" />
+
+        <!-- BASE -->
         <xacro:property name="base_link_w" value="0.3"/>
         <xacro:property name="base_link_l" value="0.5"/>
         <xacro:property name="base_link_h" value="0.2"/>
-        <xacro:property name="base_link_mass" value="10.0"/>
+        <xacro:property name="base_link_mass" value="2.0"/>
 
-        <xacro:property name="wheels_radius" value="0.025"/>
-        <xacro:property name="wheels_lenght" value="0.1"/>
+        <!-- TURTLE -->
+        <xacro:property name="turtle_link_length" value="0.03125"/>
+        <xacro:property name="turtle_link_radius" value="0.0625"/>
+
+        <!-- WHEEL -->
+        <xacro:property name="wheels_radius" value="0.05"/>
+        <xacro:property name="wheels_length" value="0.025"/>
         <xacro:property name="wheels_mass" value="0.5"/>
+
+        <!-- CASTER WHEEL -->
+        <xacro:property name="caster_wheels_radius" value="0.025"/>
+        <xacro:property name="caster_wheels_length" value="0.0125"/>
+        <xacro:property name="caster_wheels_mass" value="0.25"/>
+
+        <xacro:property name="effort" value="500.0"/>
+        <xacro:property name="velocity" value="1.0"/>
 
 </robot>

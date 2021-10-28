@@ -10,20 +10,313 @@
     <link name="${prefix}/base_footprint"/>
 </xacro:macro>
 
-<xacro:macro name="base_link" params="prefix">
+<xacro:macro name="base" params="prefix">
+    <xacro:base_footprint prefix="${prefix}"/>
     <link name="${prefix}/base_link">
         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="white"/>
             <geometry>
                 <box size="${base_link_l} ${base_link_w} ${base_link_h}"/>
             </geometry>
         </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${base_link_l} ${base_link_w} ${base_link_h}"/>
+            </geometry>
+            <!--surface>
+                <friction>
+                        <ode>
+                        <kp>1e7</kp>
+                        <kd>1e2</kd>
+                        <mu>0</mu>
+                        <mu2>0</mu2>
+                        <fdir1>1 1 1</fdir1>
+                        <minDepth>0.000</minDepth>
+                    </ode>
+                </friction>
+            </surface-->
+        </collision>
+        <internial>
+            <physics type="ode">
+                <gravity xyz="0 0 -9.8"/>
+                <ode>
+                <solver type="quick" dt="0.0001" iters="1000" sor="1.3"/>
+                <constraints cfm="0.0" erp="0.1" contact_max_correcting_vel="10.0" contact_surface_layer="0.001"/>
+                </ode>
+            </physics>
+        </internial>
+
+
+        <xacro:box_inertial x="${base_link_l}" y="${base_link_w}" z="${base_link_h} " mass="${base_link_mass}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:box_inertial>
+
     </link>
+
+    <gazebo reference="${prefix}/base_link">                
+            <material>Gazebo/White</material>
+    </gazebo>
+    
+    <link name="${prefix}/base_link_turtle">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 ${math_pi/3}"/>
+        <material name="green" />
+            <geometry>
+                <mesh filename="package://tosbaga_description/meshes/Turtle2.stl"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <gazebo reference="${prefix}/base_link_turtle">                
+            <material>Gazebo/Green</material>
+    </gazebo>
 
     <joint name="${prefix}/base_joint" type="fixed">
         <parent link="${prefix}/base_footprint"/>
         <child link="${prefix}/base_link"/>
         <origin xyz="0 0 ${wheels_radius+base_link_h/2}" rpy="0 0 0"/>
     </joint>
+
+    <joint name="${prefix}/base_joint_turtle" type="fixed">
+        <parent link="${prefix}/base_link"/>
+        <child link="${prefix}/base_link_turtle"/>
+        <origin xyz="${(base_link_l/2) +(turtle_link_radius)} 0 ${(base_link_h/2)+ (turtle_link_length/2)}" rpy="0 0 0"/>
+    </joint>
 </xacro:macro>
+
+
+<xacro:macro name="wheel_links" params="prefix location_prefix">
+    <link name="${prefix}/${location_prefix}_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
+            <material name="soft_black"/>
+            <geometry>
+                <cylinder radius="${wheels_radius}" length="${wheels_length}"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheels_radius}" length="${wheels_length}"/>
+            </geometry>
+            <!--surface>
+                <friction>
+                    <ode>
+                    <kp>1e7</kp>
+                    <kd>1e2</kd>
+                    <mu>0</mu>
+                    <mu2>0</mu2>
+                    <fdir1>1 1 1</fdir1>
+                    <minDepth>0.000</minDepth>
+                    </ode>
+                </friction>
+            </surface-->
+        </collision>
+        <internial>
+            <physics type="ode">
+                <gravity xyz="0 0 -9.8"/>
+                <ode>
+                <solver type="quick" dt="0.0001" iters="1000" sor="1.3"/>
+                <constraints cfm="0.0" erp="0.1" contact_max_correcting_vel="10.0" contact_surface_layer="0.001"/>
+                </ode>
+            </physics>
+        </internial>
+
+        <xacro:cylinder_inertial radius="${wheels_radius}" length="${wheels_length}" mass="${wheels_mass}">
+            <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
+        </xacro:cylinder_inertial>
+
+    </link>
+
+    <gazebo reference="${prefix}/${location_prefix}_wheel_link">                
+            <material>Gazebo/Black</material>
+            <mu1>0.01</mu1>
+            <mu2>0.01</mu2>
+    </gazebo>
+
+    <link name="${prefix}/${location_prefix}_wheel_ver_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 ${math_pi/2}"/>
+            <material name="white"/>
+            <geometry>
+                <box size="${wheels_length/8} ${wheels_length/4} ${wheels_radius*3/2}"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <gazebo reference="${prefix}/${location_prefix}_wheel_ver_link">                
+            <material>Gazebo/White</material>
+    </gazebo>
+
+    <xacro:if value="${location_prefix == 'left'}">
+        <joint name="${prefix}/${location_prefix}_wheel_ver_joint" type="fixed">
+            <parent link="${prefix}/${location_prefix}_wheel_link"/>
+            <child link="${prefix}/${location_prefix}_wheel_ver_link"/>
+            <origin xyz="0 ${((wheels_length/2)+(wheels_length/16))} 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:if>
+    <xacro:unless value="${location_prefix == 'left'}">
+        <joint name="${prefix}/${location_prefix}_wheel_ver_joint" type="fixed">
+            <parent link="${prefix}/${location_prefix}_wheel_link"/>
+            <child link="${prefix}/${location_prefix}_wheel_ver_link"/>
+            <origin xyz="0 ${-((wheels_length/2)+(wheels_length/16))} 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:unless>
+
+</xacro:macro>
+
+<xacro:macro name="wheel" params="prefix location_prefix">
+
+    <xacro:wheel_links prefix="${prefix}" location_prefix="${location_prefix}" />
+
+    <joint name="${prefix}/${location_prefix}_wheel_joint" type="continuous">
+        <axis xyz="0 1 0" rpy="0 0 0" />
+        <limit effort="${effort}" velocity="${velocity}"/>
+        <!--dynamics damping="0.01" friction="1e2"/!-->
+        <parent link="${prefix}/base_link"/>
+        <child link="${prefix}/${location_prefix}_wheel_link"/>
+        <xacro:if value="${location_prefix == 'left'}">
+        <origin xyz="0 ${(base_link_w/2 + wheels_length/2)} ${-base_link_h/2}" rpy="0 0 0"/>
+        </xacro:if>
+        <xacro:unless value="${location_prefix == 'left'}">
+        <origin xyz="0 ${(base_link_w/2 + wheels_length/2)*-1} ${-base_link_h/2}" rpy="0 0 0"/>
+        </xacro:unless>
+    </joint>
+
+    <transmission name="${prefix}/${location_prefix}_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}/${location_prefix}_wheel_joint">
+            <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}/${location_prefix}Motor">
+            <hardwareInterface>VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>10</mechanicalReduction>
+        </actuator>
+    </transmission>
+</xacro:macro>
+
+<xacro:macro name="caster_wheel_links" params="prefix r_location_prefix d_location_prefix">
+    <link name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
+            <material name="soft_black"/>
+            <geometry>
+                <cylinder radius="${caster_wheels_radius}" length="${caster_wheels_length}"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${caster_wheels_radius}" length="${caster_wheels_length}"/>
+            </geometry>
+            <!--surface>
+                <friction>
+                    <ode>
+                    <kp>1e7</kp>
+                    <kd>1e2</kd>
+                    <mu>0</mu>
+                    <mu2>0</mu2>
+                    <fdir1>1 1 1</fdir1>
+                    <minDepth>0.000</minDepth>
+                    </ode>
+                </friction>
+            </surface-->
+        </collision>
+
+        <internial>
+            <physics type="ode">
+                <gravity xyz="0 0 -9.8"/>
+                <ode>
+                <solver type="quick" dt="0.0001" iters="1000" sor="1.3"/>
+                <constraints cfm="0.0" erp="0.1" contact_max_correcting_vel="10.0" contact_surface_layer="0.001"/>
+                </ode>
+            </physics>
+        </internial>
+
+        <xacro:cylinder_inertial radius="${caster_wheels_radius}" length="${caster_wheels_length}" mass="${caster_wheels_mass}">
+            <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
+        </xacro:cylinder_inertial>
+
+    </link>
+
+    <gazebo reference="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link">                
+            <material>Gazebo/Black</material>
+              <mu1>0.01</mu1>
+              <mu2>0.01</mu2>
+    </gazebo>
+
+    <link name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 ${math_pi/2}"/>
+            <material name="white"/>
+            <geometry>
+                <box size="${caster_wheels_length/8} ${caster_wheels_length/4} ${caster_wheels_radius*3/2}"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <gazebo reference="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_link">                
+            <material>Gazebo/White</material>
+    </gazebo>
+
+    <xacro:if value="${r_location_prefix == 'left'}">
+        <joint name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_joint" type="fixed">
+            <parent link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link"/>
+            <child link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_link"/>
+            <origin xyz="0 ${((caster_wheels_length/2)+(caster_wheels_length/16))} 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:if>
+    <xacro:unless value="${r_location_prefix == 'left'}">
+        <joint name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_joint" type="fixed">
+            <parent link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link"/>
+            <child link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_link"/>
+            <origin xyz="0 ${-((caster_wheels_length/2)+(caster_wheels_length/16))} 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:unless>
+</xacro:macro>
+
+<xacro:macro name="caster_wheel" params="prefix r_location_prefix d_location_prefix">
+
+    <xacro:caster_wheel_links prefix="${PREFIX}" r_location_prefix="${r_location_prefix}" d_location_prefix="${d_location_prefix}"/>
+    
+    <xacro:if value="${d_location_prefix == 'front'}">
+        <joint name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_joint" type="continuous">
+            <axis xyz="0 1 0" rpy="0 0 0" />
+            <limit effort="${effort}" velocity="${velocity}"/>
+            <!--dynamics damping="0.01" friction="1e2"/!-->
+            <parent link="${prefix}/base_link"/>
+            <child link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link"/>
+            <xacro:if value="${r_location_prefix == 'left'}">
+            <origin xyz="${(base_link_l/2 - caster_wheels_radius*3/2)} ${(base_link_w/2 - caster_wheels_length)} ${-(base_link_h/2 + caster_wheels_radius)}" rpy="0 0 0"/>
+            </xacro:if>
+            <xacro:unless value="${r_location_prefix == 'left'}">
+            <origin xyz="${(base_link_l/2 - caster_wheels_radius*3/2)} ${(base_link_w/2 - caster_wheels_length)*-1} ${-(base_link_h/2 + caster_wheels_radius)}" rpy="0 0 0"/>
+            </xacro:unless>
+        </joint>
+    </xacro:if>
+
+    <xacro:unless value="${d_location_prefix == 'front'}">
+        <joint name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_joint" type="continuous">
+            <axis xyz="0 1 0" rpy="0 0 0" />
+            <limit effort="${effort}" velocity="${velocity}"/>
+            <!--dynamics damping="0.01" friction="1e2"/-->
+            <parent link="${prefix}/base_link"/>
+            <child link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link"/>
+            <xacro:if value="${r_location_prefix == 'left'}">
+            <origin xyz="${-(base_link_l/2 - caster_wheels_radius*3/2)} ${(base_link_w/2 - caster_wheels_length)} ${-(base_link_h/2 + caster_wheels_radius)}" rpy="0 0 0"/>
+            </xacro:if>
+            <xacro:unless value="${r_location_prefix == 'left'}">
+            <origin xyz="${-(base_link_l/2 - caster_wheels_radius*3/2)} ${-(base_link_w/2 - caster_wheels_length)} ${-(base_link_h/2 + caster_wheels_radius)}" rpy="0 0 0"/>
+            </xacro:unless>
+        </joint>
+    </xacro:unless>
+</xacro:macro>
+
+
 
 </robot>
