@@ -65,7 +65,7 @@
             <origin xyz="0 0 0" rpy="0 0 ${math_pi/3}"/>
         <material name="green" />
             <geometry>
-                <mesh filename="package://tosbaga_description/meshes/Turtle2.stl"/>
+                <mesh filename="package://oav_description/meshes/Turtle2.stl"/>
             </geometry>
         </visual>
     </link>
@@ -103,18 +103,6 @@
             <geometry>
                 <cylinder radius="${wheels_radius}" length="${wheels_length}"/>
             </geometry>
-            <!--surface>
-                <friction>
-                    <ode>
-                    <kp>1e7</kp>
-                    <kd>1e2</kd>
-                    <mu>0</mu>
-                    <mu2>0</mu2>
-                    <fdir1>1 1 1</fdir1>
-                    <minDepth>0.000</minDepth>
-                    </ode>
-                </friction>
-            </surface-->
         </collision>
         <internial>
             <physics type="ode">
@@ -176,7 +164,6 @@
     <joint name="${prefix}/${location_prefix}_wheel_joint" type="continuous">
         <axis xyz="0 1 0" rpy="0 0 0" />
         <limit effort="${effort}" velocity="${velocity}"/>
-        <!--dynamics damping="0.01" friction="1e2"/!-->
         <parent link="${prefix}/base_link"/>
         <child link="${prefix}/${location_prefix}_wheel_link"/>
         <xacro:if value="${location_prefix == 'left'}">
@@ -214,18 +201,6 @@
             <geometry>
                 <cylinder radius="${caster_wheels_radius}" length="${caster_wheels_length}"/>
             </geometry>
-            <!--surface>
-                <friction>
-                    <ode>
-                    <kp>1e7</kp>
-                    <kd>1e2</kd>
-                    <mu>0</mu>
-                    <mu2>0</mu2>
-                    <fdir1>1 1 1</fdir1>
-                    <minDepth>0.000</minDepth>
-                    </ode>
-                </friction>
-            </surface-->
         </collision>
 
         <internial>
@@ -288,7 +263,6 @@
         <joint name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_joint" type="continuous">
             <axis xyz="0 1 0" rpy="0 0 0" />
             <limit effort="${effort}" velocity="${velocity}"/>
-            <!--dynamics damping="0.01" friction="1e2"/!-->
             <parent link="${prefix}/base_link"/>
             <child link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link"/>
             <xacro:if value="${r_location_prefix == 'left'}">
@@ -304,7 +278,6 @@
         <joint name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_joint" type="continuous">
             <axis xyz="0 1 0" rpy="0 0 0" />
             <limit effort="${effort}" velocity="${velocity}"/>
-            <!--dynamics damping="0.01" friction="1e2"/-->
             <parent link="${prefix}/base_link"/>
             <child link="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link"/>
             <xacro:if value="${r_location_prefix == 'left'}">
