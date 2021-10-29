@@ -26,18 +26,6 @@
             <geometry>
                 <box size="${base_link_l} ${base_link_w} ${base_link_h}"/>
             </geometry>
-            <!--surface>
-                <friction>
-                        <ode>
-                        <kp>1e7</kp>
-                        <kd>1e2</kd>
-                        <mu>0</mu>
-                        <mu2>0</mu2>
-                        <fdir1>1 1 1</fdir1>
-                        <minDepth>0.000</minDepth>
-                    </ode>
-                </friction>
-            </surface-->
         </collision>
         <internial>
             <physics type="ode">
@@ -122,8 +110,11 @@
 
     <gazebo reference="${prefix}/${location_prefix}_wheel_link">                
             <material>Gazebo/Black</material>
-            <mu1>0.01</mu1>
-            <mu2>0.01</mu2>
+            <mu1>100.0</mu1>
+            <mu2>100.0</mu2>
+            <kp value="1000000.0.0" />
+            <kd value="1.0" />
+            <!--fdir1 value="1 0 0"/-->
     </gazebo>
 
     <link name="${prefix}/${location_prefix}_wheel_ver_link">
@@ -221,8 +212,11 @@
 
     <gazebo reference="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link">                
             <material>Gazebo/Black</material>
-              <mu1>0.01</mu1>
-              <mu2>0.01</mu2>
+            <mu1>100.0</mu1>
+            <mu2>100.0</mu2>
+            <kp value="1000000.0.0" />
+            <kd value="1.0" />
+            <!--fdir1 value="1 0 0"/-->
     </gazebo>
 
     <link name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_link">
