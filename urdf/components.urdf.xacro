@@ -110,11 +110,18 @@
 
     <gazebo reference="${prefix}/${location_prefix}_wheel_link">                
             <material>Gazebo/Black</material>
-            <mu1>100.0</mu1>
+            <!--mu1>100.0</mu1>
             <mu2>100.0</mu2>
             <kp value="1000000.0.0" />
-            <kd value="1.0" />
-            <!--fdir1 value="1 0 0"/-->
+            <kd value="1.0" /-->
+            <kp>10000000.0</kp>
+            <kd>100.0</kd>
+            <mu1>0.01</mu1>
+            <mu2>0.01</mu2>
+            <fdir1>1 1 0</fdir1>
+            <minDepth>0.00</minDepth>
+            <maxVel>2.0</maxVel>
+            <implicitSpringDamper>0</implicitSpringDamper>
     </gazebo>
 
     <link name="${prefix}/${location_prefix}_wheel_ver_link">
@@ -172,7 +179,7 @@
         </joint>
         <actuator name="${prefix}/${location_prefix}Motor">
             <hardwareInterface>VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>10</mechanicalReduction>
+            <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
 </xacro:macro>
@@ -183,6 +190,7 @@
             <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
             <material name="soft_black"/>
             <geometry>
+                <!--sphere radius="${caster_wheels_radius}"/-->
                 <cylinder radius="${caster_wheels_radius}" length="${caster_wheels_length}"/>
             </geometry>
         </visual>
@@ -190,6 +198,7 @@
         <collision>
             <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
             <geometry>
+                <!--sphere radius="${caster_wheels_radius}"/-->
                 <cylinder radius="${caster_wheels_radius}" length="${caster_wheels_length}"/>
             </geometry>
         </collision>
@@ -204,6 +213,11 @@
             </physics>
         </internial>
 
+    
+        <!--xacro:sphere_inertial radius="${caster_wheels_radius}" mass="${caster_wheels_mass}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:sphere_inertial-->
+
         <xacro:cylinder_inertial radius="${caster_wheels_radius}" length="${caster_wheels_length}" mass="${caster_wheels_mass}">
             <origin xyz="0 0 0" rpy="${math_pi/2} 0 0"/>
         </xacro:cylinder_inertial>
@@ -212,11 +226,18 @@
 
     <gazebo reference="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_link">                
             <material>Gazebo/Black</material>
-            <mu1>100.0</mu1>
+            <!--mu1>100.0</mu1>
             <mu2>100.0</mu2>
             <kp value="1000000.0.0" />
-            <kd value="1.0" />
-            <!--fdir1 value="1 0 0"/-->
+            <kd value="1.0" /-->
+            <kp>10000000.0</kp>
+            <kd>100.0</kd>
+            <mu1>0.01</mu1>
+            <mu2>0.01</mu2>
+            <fdir1>1 1 0</fdir1>
+            <minDepth>0.00</minDepth>
+            <maxVel>2.0</maxVel>
+            <implicitSpringDamper>0</implicitSpringDamper>
     </gazebo>
 
     <link name="${prefix}/${d_location_prefix}_${r_location_prefix}_caster_wheel_ver_link">

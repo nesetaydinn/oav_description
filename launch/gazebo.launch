@@ -24,8 +24,8 @@
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)
         use_ros_control_for_base:=$(arg use_ros_control_for_base)" />
   
-  <rosparam file="$(find oav_description)/config/joint_state_controller.yaml" command="load" subst_value="true"/>
-      <rosparam file="$(find oav_description)/config/diff_drive_controller.yaml" command="load" subst_value="true"/>
+  <rosparam file="$(find oav_control)/config/joint_state_controller.yaml" command="load" subst_value="true"/>
+      <rosparam file="$(find oav_control)/config/diff_drive_controller.yaml" command="load" subst_value="true"/>
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
