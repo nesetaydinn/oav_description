@@ -17,12 +17,13 @@
         <!-- WHEEL -->
         <xacro:property name="wheels_radius" value="0.05"/>
         <xacro:property name="wheels_length" value="0.0025"/>
-        <xacro:property name="wheels_mass" value="1.0"/>
+        <xacro:property name="wheels_mass" value="2.0"/>
 
         <!-- CASTER WHEEL -->
         <xacro:property name="caster_wheels_radius" value="0.025"/>
-        <xacro:property name="caster_wheels_length" value="0.00125"/>
-        <xacro:property name="caster_wheels_mass" value="0.05"/>
+        <!--xacro:property name="caster_wheels_length" value="0.00125"/-->
+        <xacro:property name="caster_wheels_length" value="0.0025"/>
+        <xacro:property name="caster_wheels_mass" value="0.1"/>
 
         <xacro:property name="effort" value="500.0"/>
         <xacro:property name="velocity" value="500.0"/>
