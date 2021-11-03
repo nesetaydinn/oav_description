@@ -6,9 +6,11 @@
     
     <xacro:include filename="$(find oav_description)/urdf/components.urdf.xacro" />
     <xacro:include filename="$(find oav_description)/urdf/definations.urdf.xacro" />
-    
+
 
     <xacro:base prefix="${PREFIX}"/>
+    <xacro:neshLid_v1 prefix="${PREFIX}" parrent="base_link" x="0" y="0" z="${base_link_h/2}"/>
+
     <xacro:wheel prefix="${PREFIX}" location_prefix="right"/>
     <xacro:wheel prefix="${PREFIX}" location_prefix="left"/>
 

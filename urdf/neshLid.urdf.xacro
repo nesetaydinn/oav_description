@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="oav_neshLid">
+    <xacro:include filename="$(find oav_description)/urdf/inertial.urdf.xacro" />
+    <xacro:include filename="$(find oav_description)/urdf/definations.urdf.xacro" />
+    <xacro:include filename="$(find oav_description)/urdf/materials.urdf.xacro" />
+
+
+
+<xacro:macro name="neshLid_v1" params="prefix parrent x y z">
+    <link name="${prefix}/neshLid_v1_link">
+        <visual>
+            <material name="green" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${neshLid_v1_base_l} ${neshLid_v1_base_w} ${neshLid_v1_base_h}"/>
+            </geometry>
+        </visual>
+        
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${neshLid_v1_base_l} ${neshLid_v1_base_w} ${neshLid_v1_base_h}"/>
+            </geometry>
+        </collision>
+        
+        <xacro:box_inertial x="${neshLid_v1_base_l}" y="${neshLid_v1_base_w}" z="${neshLid_v1_base_h} " mass="${neshLid_v1_base_mass}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:box_inertial>
+    </link>
+
+    <link name="${prefix}/neshLid_v1_scanner_link">
+        <visual>
+            <material name="soft_black" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${neshLid_v1_scanner_radius}" length="${neshLid_v1_scanner_length}"/>
+            </geometry>
+        </visual>
+        
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${neshLid_v1_scanner_radius}" length="${neshLid_v1_scanner_length}"/>
+            </geometry>
+        </collision>
+        
+        <xacro:cylinder_inertial radius="${neshLid_v1_scanner_radius}" length="${neshLid_v1_scanner_length}" mass="${neshLid_v1_base_mass}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:cylinder_inertial>
+    </link>
+
+    <joint name="${prefix}/neshLid_v1_scanner_joint" type="fixed">
+        <parent link="${prefix}/neshLid_v1_link"/>
+        <child link="${prefix}/neshLid_v1_scanner_link"/>
+        <origin xyz="0 0 ${(neshLid_v1_base_h/2)+(neshLid_v1_scanner_length/2)}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="${prefix}/neshLid_v1_joint" type="fixed">
+        <parent link="${prefix}/${parrent}"/>
+        <child link="${prefix}/neshLid_v1_link"/>
+        <origin xyz="${x} ${y} ${z+(neshLid_v1_base_h/2)}" rpy="0 0 0"/>
+    </joint>
+    <xacro:neshLid_v1_gazebo prefix="${prefix}" link="neshLid_v1_scanner_link" ros_topic="scan" 
+        update_rate="15.0" min_angle="-2.357" max_angle="2.357" min_range="0.05" max_range="25" />
+</xacro:macro>
+
+
+<xacro:macro name="neshLid_v1_gazebo" params="prefix link ros_topic update_rate min_angle max_angle min_range max_range">
+<gazebo reference="${prefix}/${link}">
+      <material value="Gazebo/Green" />
+      <sensor type="ray" name="${prefix}/neshLid_v1">
+        <always_on>true</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>271</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_angle}</min_angle>
+              <max_angle>${max_angle}</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.005</stddev>
+          </noise>
+        </ray>
+        <plugin name="gazebo_ros_${prefix}/neshLid_v1_controller" filename="libgazebo_ros_laser.so">
+          <gaussianNoise>0.005</gaussianNoise>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>${update_rate}</updateRate>
+          <topicName>${prefix}/${ros_topic}</topicName>
+          <frameName>${prefix}/${link}</frameName>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+</xacro:macro>
+
+
+</robot>
