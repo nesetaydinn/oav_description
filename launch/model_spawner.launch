@@ -1,17 +1,15 @@
 <launch>
 
     <arg name="prefix" default="rNESH"/>
-    <arg name="gazebo" default="false"/>
-    <arg name="rviz" default="false"/>
-
     <arg name="model" default="$(find oav_description)/urdf/oav_v1.urdf.xacro"/>
-    <arg name="use_ros_control_for_base" default="false"/>
     <arg name="gui" default="false"/>
-    <arg name="rviz_conf" default="$(find oav_description)/rviz/1.rviz"/>
-    
+    <arg name="use_ros_control_for_base" default="false"/>
+
     <param name="robot_description" command="$(find xacro)/xacro $(arg model)
     use_ros_control_for_base:=$(arg use_ros_control_for_base)" />
 
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-z 0.0 -unpause -urdf -model robot -param robot_description" respawn="false" output="screen" />
 
     <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher">
         <param name="publish_frequency" type="double" value="30.0" />
@@ -24,24 +22,5 @@
     <node unless="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">       
         <param name="publish_frequency" type="double" value="30.0" />
     </node>
-
-    <group if="$(arg rviz)">
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_conf)" required="true"/>
-    </group>
-
-
-    <group if="$(arg gazebo)">
-    
-    <rosparam file="$(find oav_control)/config/joint_state_controller.yaml" command="load" subst_value="true"/>
-    <rosparam file="$(find oav_control)/config/diff_drive_controller.yaml" command="load" subst_value="true"/>
-    
-    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-        args="-z 0.0 -unpause -urdf -model robot -param robot_description" respawn="false" output="screen" />
-
-    <node name="ctrl_spawner" pkg="controller_manager" type="spawner" output="screen" 
-          args="joint_state_controller mobile_base_controller"/>   
-    </group>
-
-
     
 </launch>

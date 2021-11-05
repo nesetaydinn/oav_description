@@ -1,0 +1,15 @@
+<launch>
+
+    <arg name="prefix" default="rNESH"/>
+    <arg name="model" default="$(find oav_description)/urdf/oav_v1.urdf.xacro"/>
+    <arg name="rviz_conf" default="$(find oav_description)/rviz/1.rviz"/>
+    <arg name="spawn_model" default="true"/>
+    
+
+    <include if="$(arg spawn_model)" file="$(find oav_description)/launch/model_spawner.launch">
+      <arg name="prefix" value="$(arg prefix)"/>
+      <arg name="model" value="$(arg model)"/>
+    </include>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_conf)" required="true"/>
+</launch>
