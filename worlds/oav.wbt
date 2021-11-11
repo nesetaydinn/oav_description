@@ -1,0 +1,384 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  basicTimeStep 8
+  coordinateSystem "NUE"
+  contactProperties [
+    DEF Wheel_Contact_Properties ContactProperties {
+      material1 "ground"
+      material2 "wheel_surface"
+    }
+    DEF Caster_Wheel_Contact_Properties ContactProperties {
+      material1 "ground"
+      material2 "caster_wheel_surface"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.4712098608930553 -0.8741787946206687 -0.11735715586491598 5.406557253398196
+  position 1.1979182187074877 0.8115136618434133 1.0675044356778507
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  contactMaterial "ground"
+  size 20 20
+}
+Robot {
+  rotation 1 0 0 -1.5707953071795862
+  children [
+    Solid {
+      translation 5.465547144474987e-13 -1.5703383691388762e-09 0.09844839876776554
+      rotation 1 0 0 0
+      children [
+        Shape {
+          appearance DEF white PBRAppearance {
+            baseColor 0.933333 0.933333 0.92549
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.3 0.3 0.1
+          }
+        }
+        Solid {
+          translation 0 0 0.065
+          rotation 0 0 1 -1.5708
+          children [
+            Shape {
+              appearance DEF green PBRAppearance {
+                baseColor 0 1 0
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.06 0.06 0.03
+              }
+            }
+            Solid {
+              translation 0 0 0.03
+              rotation 1 0 0 1.5708
+              children [
+                Transform {
+                  rotation 1 0 0 1.570796
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0 1 0
+                        metalness 0
+                      }
+                      geometry Cylinder {
+                        height 0.03
+                        radius 0.02
+                      }
+                    }
+                  ]
+                }
+                Lidar {
+                  name "neshLid_v1_scanner_link"
+                  horizontalResolution 271
+                  fieldOfView 4.714
+                  numberOfLayers 1
+                  minRange 0.05
+                  maxRange 25
+                  noise 0.0002
+                  resolution 0.01
+                }
+              ]
+              name "rNESH/neshLid_v1_scanner_link"
+              boundingObject Transform {
+                rotation 1 0 0 1.570796
+                children [
+                  Cylinder {
+                    height 0.03
+                    radius 0.02
+                  }
+                ]
+              }
+            }
+          ]
+          name "rNESH/neshLid_v1_link"
+          boundingObject Box {
+            size 0.06 0.06 0.03
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 0.23999481114978724
+            axis 0 1 0
+            anchor 0 -0.15125 -0.05
+          }
+          device [
+            RotationalMotor {
+              name "rNESH/right_wheel_joint"
+              maxTorque 10000
+            }
+            PositionSensor {
+              name "rNESH/right_wheel_joint_sensor"
+            }
+          ]
+          endPoint Solid {
+            translation -1.18893079556343e-06 -0.1512500000015377 -0.05000051790808824
+            rotation -8.69767700703762e-12 1 2.4814260157381616e-11 0.3251153854702564
+            children [
+              Transform {
+                rotation 1 0 0 3.141546
+                children [
+                  Shape {
+                    appearance DEF soft_black PBRAppearance {
+                      baseColor 0 0 0
+                      roughness 1
+                      metalness 0
+                    }
+                    geometry Cylinder {
+                      height 0.0025
+                      radius 0.05
+                    }
+                  }
+                ]
+              }
+              Solid {
+                translation 0 -0.001406 0
+                children [
+                  Transform {
+                    rotation 0 0 1 1.57075
+                    children [
+                      Shape {
+                        appearance USE white
+                        geometry Box {
+                          size 0.0003125 0.000625 0.07500000000000001
+                        }
+                      }
+                    ]
+                  }
+                ]
+                name "rNESH/right_wheel_ver_link"
+              }
+            ]
+            name "rNESH/right_wheel_link"
+            contactMaterial "wheel_surface"
+            boundingObject Transform {
+              rotation 1 0 0 3.141546
+              children [
+                Cylinder {
+                  height 0.0025
+                  radius 0.05
+                }
+              ]
+            }
+            physics DEF Wheel_Ph Physics {
+            }
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 0.23999459125149578
+            axis 0 1 0
+            anchor 0 0.15125 -0.05
+          }
+          device [
+            RotationalMotor {
+              name "rNESH/left_wheel_joint"
+              maxTorque 10000
+            }
+            PositionSensor {
+              name "rNESH/left_wheel_joint_sensor"
+            }
+          ]
+          endPoint Solid {
+            translation 1.0679322581198423e-06 0.15124999999845617 -0.05000088409963394
+            rotation -1.5174881073963926e-11 1 -3.424308798069773e-11 0.15478876880267659
+            children [
+              Transform {
+                rotation 1 0 0 3.141546
+                children [
+                  Shape {
+                    appearance USE soft_black
+                    geometry Cylinder {
+                      height 0.0025
+                      radius 0.05
+                    }
+                  }
+                ]
+              }
+              Solid {
+                translation 0 0.001406 0
+                children [
+                  Transform {
+                    rotation 0 0 1 1.57075
+                    children [
+                      Shape {
+                        appearance USE soft_black
+                        geometry Box {
+                          size 0.0003125 0.000625 0.07500000000000001
+                        }
+                      }
+                    ]
+                  }
+                ]
+                name "rNESH/left_wheel_ver_link"
+              }
+            ]
+            name "rNESH/left_wheel_link"
+            contactMaterial "wheel_surface"
+            boundingObject Transform {
+              rotation 1 0 0 3.141546
+              children [
+                Cylinder {
+                  height 0.0025
+                  radius 0.05
+                }
+              ]
+            }
+            physics USE Wheel_Ph
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 8.641565468297737e-15
+            axis 1 1 1
+            anchor 0.1125 -0.1475 -0.075
+          }
+          device [
+            RotationalMotor {
+              name "rNESH/front_right_caster_wheel_joint"
+              maxTorque 10000
+            }
+            PositionSensor {
+              name "rNESH/front_right_caster_wheel_joint_sensor"
+            }
+          ]
+          endPoint Solid {
+            translation 0.11249999999999993 -0.1474999999997349 -0.07499974109998375
+            rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 0
+            children [
+              DEF Caster_Shape Shape {
+                appearance USE soft_black
+                geometry Sphere {
+                  radius 0.025
+                  subdivision 2
+                }
+              }
+            ]
+            name "rNESH/front_right_caster_wheel_link"
+            contactMaterial "caster_wheel_surface"
+            boundingObject USE Caster_Shape
+            physics DEF Caster_Ph Physics {
+              density 100
+            }
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 9.124905518477638e-15
+            axis 1 1 1
+            anchor 0.1125 0.1475 -0.075
+          }
+          device [
+            RotationalMotor {
+              name "rNESH/front_left_caster_wheel_joint"
+              maxTorque 10000
+            }
+            PositionSensor {
+              name "rNESH/front_left_caster_wheel_joint_sensor"
+            }
+          ]
+          endPoint Solid {
+            translation 0.11249999999999993 0.14750000000026214 -0.07499974407279157
+            rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 0
+            children [
+              USE Caster_Shape
+            ]
+            name "rNESH/front_left_caster_wheel_link"
+            contactMaterial "caster_wheel_surface"
+            boundingObject USE Caster_Shape
+            physics USE Caster_Ph
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 9.241935626799846e-15
+            axis 1 1 1
+            anchor -0.1125 -0.1475 -0.075
+          }
+          device [
+            RotationalMotor {
+              name "rNESH/back_right_caster_wheel_joint"
+              maxTorque 10000
+            }
+            PositionSensor {
+              name "rNESH/back_right_caster_wheel_joint_sensor"
+            }
+          ]
+          endPoint Solid {
+            translation -0.11250000000000007 -0.14749999999973493 -0.07499974109998374
+            rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 0
+            children [
+              USE Caster_Shape
+            ]
+            name "rNESH/back_right_caster_wheel_link"
+            contactMaterial "caster_wheel_surface"
+            boundingObject USE Caster_Shape
+            physics USE Caster_Ph
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 8.823760850723496e-15
+            axis 1 1 1
+            anchor -0.1125 0.1475 -0.075
+          }
+          device [
+            RotationalMotor {
+              name "rNESH/back_left_caster_wheel_joint"
+              maxTorque 10000
+            }
+            PositionSensor {
+              name "rNESH/back_left_caster_wheel_joint_sensor"
+            }
+          ]
+          endPoint Solid {
+            translation -0.11250000000000007 0.14750000000026214 -0.07499974407279157
+            rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 0
+            children [
+              USE Caster_Shape
+            ]
+            name "rNESH/back_left_caster_wheel_link"
+            contactMaterial "caster_wheel_surface"
+            boundingObject USE Caster_Shape
+            physics USE Caster_Ph
+          }
+        }
+      ]
+      name "rNESH/base_link"
+      boundingObject Box {
+        size 0.3 0.3 0.1
+      }
+      physics Physics {
+      }
+    }
+  ]
+  name "OavV1"
+  boundingObject Transform {
+    translation 0 0 0.2
+    children [
+      Sphere {
+        radius 0.01
+      }
+    ]
+  }
+  physics Physics {
+  }
+  controller "ros"
+  controllerArgs [
+    "--name=rNESH"
+    "--use-sim-time"
+    "--clock"
+    "--auto-publish"
+    "--use-ros-control"
+  ]
+}
