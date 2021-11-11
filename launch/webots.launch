@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="model" default="$(find oav_description)/urdf/oav_v1.urdf.xacro"/>
+    <arg name="world" default="$(find oav_description)/worlds/oav.wbt"/>
+    <arg name="mode" default="realtime"/>
+    <arg name="no_gui" default="false"/>
+
+    <node name="webots" pkg="webots_ros" type="webots_launcher.py" args="--world=$(arg world) --mode=$(arg mode) --no-gui=$(arg no_gui)" required="true"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro $(arg model)
+        use_ros_control_for_base:=true" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="30.0" />
+    </node>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="publish_frequency" type="double" value="30.0" />
+    </node>
+
+    <include file="$(find oav_description)/launch/ctrl_spawner.launch"/>
+</launch>
